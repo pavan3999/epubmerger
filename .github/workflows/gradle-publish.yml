@@ -18,21 +18,14 @@ jobs:
           distribution: temurin
           java-version: '8'
 
-      - name: Set up Android SDK (Java 8 compatible)
-        uses: malinskiy/action-android/install-sdk@v1.2.0
-        env:
-          ANDROID_SDK_ROOT: ${{ runner.temp }}/android-sdk
-        with:
-          packages: |
-            platforms;android-28
-            build-tools;28.0.3
-            platform-tools
+      - name: Set up Android SDK (built-in)
+        uses: android-actions/setup-android@v3
 
-      - name: Accept Android licenses
+      - name: Accept SDK licenses
         run: |
-          echo "y" | $ANDROID_SDK_ROOT/tools/bin/sdkmanager --licenses || true
+          yes | sdkmanager --licenses
         env:
-          ANDROID_SDK_ROOT: ${{ runner.temp }}/android-sdk
+          ANDROID_SDK_ROOT: $ANDROID_HOME
 
       - name: Make gradlew executable
         run: chmod +x app/gradlew
@@ -48,7 +41,8 @@ jobs:
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-          ANDROID_HOME: ${{ runner.temp }}/android-sdk
+          ANDROID_HOME: $ANDROID_HOME
+          JAVA_HOME: $JAVA_HOME_8_X64
         working-directory: app
         run: ./gradlew assembleRelease --stacktrace --warning-mode all --no-daemon
 
