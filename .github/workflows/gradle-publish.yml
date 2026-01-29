@@ -12,31 +12,22 @@ jobs:
       - name: Checkout fork
         uses: actions/checkout@v4
 
-      - name: Set up JDK 8 (required for old Gradle)
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '8'
-
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Make gradlew executable (in app/)
-        run: chmod +x app/gradlew
-
       - name: Decode release keystore
         run: echo "$RELEASE_KEYSTORE" | base64 -d > app/release.jks
         env:
           RELEASE_KEYSTORE: ${{ secrets.RELEASE_KEYSTORE }}
 
       - name: Build signed release APK
+        uses: gradle/gradle-build-action@v3
         env:
           KEYSTORE: release.jks
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-        working-directory: app
-        run: ./gradlew assembleRelease --stacktrace --warning-mode all
+        with:
+          java-version: '8'
+          arguments: assembleRelease --stacktrace --warning-mode all --no-daemon
+          working-directory: app
 
       - name: Upload release APK artifact
         uses: actions/upload-artifact@v4
