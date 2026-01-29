@@ -18,6 +18,11 @@ jobs:
           distribution: temurin
           java-version: '8'
 
+      - name: Clear SDK cache
+        run: |
+          rm -rf ~/.android
+          rm -rf $ANDROID_HOME/.android_cache
+    
       - name: Make gradlew executable
         run: chmod +x app/gradlew
 
