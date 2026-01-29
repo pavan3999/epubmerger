@@ -4,7 +4,7 @@ buildscript {
     ext.kotlin_version = '1.3.11'
     repositories {
         google()
-        jcenter()
+        mavenCentral()  // ✅ Replace jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.2'
@@ -18,7 +18,10 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()  // ✅ Replace jcenter()
+        flatDir {        // ✅ For local JARs in app/libs/
+            dirs 'app/libs'
+        }
     }
 }
 
@@ -31,3 +34,4 @@ allOpen {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
