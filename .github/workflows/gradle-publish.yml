@@ -21,23 +21,22 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew
+      - name: Make gradlew executable (in app/)
+        run: chmod +x app/gradlew
 
-      # Decode keystore from secret (base64 string of your .jks)
       - name: Decode release keystore
-        run: echo "$RELEASE_KEYSTORE" | base64 -d > release.jks
+        run: echo "$RELEASE_KEYSTORE" | base64 -d > app/release.jks
         env:
           RELEASE_KEYSTORE: ${{ secrets.RELEASE_KEYSTORE }}
 
-      # Build signed release APK using env vars consumed in app/build.gradle
       - name: Build signed release APK
         env:
           KEYSTORE: release.jks
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-        run: ./gradlew :app:assembleRelease --stacktrace --warning-mode all
+        working-directory: app
+        run: ./gradlew assembleRelease --stacktrace --warning-mode all
 
       - name: Upload release APK artifact
         uses: actions/upload-artifact@v4
