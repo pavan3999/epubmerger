@@ -6,45 +6,33 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04  # Explicitly use 24.04 for preinstalled SDK
 
     steps:
-      - name: Checkout fork
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up JDK 8
+      - name: Set up JDK 8 (for Gradle only)
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '8'
 
-      - name: Set up Android SDK (built-in)
-        uses: android-actions/setup-android@v3
-
-      - name: Accept SDK licenses
-        run: |
-          yes | sdkmanager --licenses
-        env:
-          ANDROID_SDK_ROOT: $ANDROID_HOME
-
       - name: Make gradlew executable
         run: chmod +x app/gradlew
 
-      - name: Decode release keystore
-        run: echo "$RELEASE_KEYSTORE" | base64 -d > app/release.jks
-        env:
-          RELEASE_KEYSTORE: ${{ secrets.RELEASE_KEYSTORE }}
+      - name: Decode keystore
+        run: echo "${{ secrets.RELEASE_KEYSTORE }}" | base64 -d > app/release.jks
 
-      - name: Build signed release APK
+      - name: Build APK
         env:
+          ANDROID_HOME: /usr/local/lib/android/sdk  # Preinstalled SDK
           KEYSTORE: release.jks
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-          ANDROID_HOME: $ANDROID_HOME
-          JAVA_HOME: $JAVA_HOME_8_X64
         working-directory: app
-        run: ./gradlew assembleRelease --stacktrace --warning-mode all --no-daemon
+        run: ./gradlew assembleRelease --stacktrace --no-daemon
 
       - name: Upload release APK artifact
         uses: actions/upload-artifact@v4
