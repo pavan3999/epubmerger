@@ -40,7 +40,7 @@ class BookMetaFragment : Fragment() {
     super.onCreate(savedInstanceState)
     arguments?.let {
       val entries = it.getParcelableArrayList<Uri>(SELECTED_FILES)
-      model = ViewModelProviders.of(
+      model = ViewModelProvider(
         requireActivity(),
         BooksViewModel.BooksViewModelFactory(entries, activity?.application!!)
       )[BooksViewModel::class.java]

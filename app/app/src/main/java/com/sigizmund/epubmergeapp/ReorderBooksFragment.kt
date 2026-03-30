@@ -18,7 +18,7 @@ import com.ernestoyaquello.dragdropswiperecyclerview.listener.OnItemDragListener
 import com.ernestoyaquello.dragdropswiperecyclerview.listener.OnItemSwipeListener
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.sigizmund.epubmergeapp.BookMergeWizardActivity.Companion.FILE_SELECT_CODE
-import kotlinx.android.synthetic.main.fragment_reorder_books.*
+
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -56,7 +56,7 @@ class ReorderBooksFragment : Fragment() {
     arguments?.let { extras ->
       // SELECTED_FILES must be passed into this fragment
       val entries = extras.getParcelableArrayList<Uri>(SELECTED_FILES)
-      model = ViewModelProviders.of(
+      model = ViewModelProvider(
         requireActivity(),
         BooksViewModel.BooksViewModelFactory(entries, activity?.application!!)
       )[BooksViewModel::class.java]

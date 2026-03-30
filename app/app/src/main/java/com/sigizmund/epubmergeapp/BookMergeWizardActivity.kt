@@ -13,8 +13,8 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
 import epubmerger.BookMerger
-import kotlinx.android.synthetic.main.activity_book_merge_wizard.*
-import kotlinx.android.synthetic.main.fragment_reorder_books.*
+
+
 import java.text.Normalizer
 import java.util.*
 
@@ -97,7 +97,7 @@ class BookMergeWizardActivity :
     // For initial page it should be always disabled since this is the first page
     buttonPrevious.isEnabled = false
 
-    this.bookViewModel = ViewModelProviders.of(
+    this.bookViewModel = ViewModelProvider(
       this,
       BooksViewModel.BooksViewModelFactory(selectedFiles, application)
     )[BooksViewModel::class.java]
