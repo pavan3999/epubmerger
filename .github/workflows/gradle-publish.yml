@@ -12,11 +12,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up JDK 8 (for Gradle only)
+      - name: Set up JDK 17 (for Gradle only)
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '8'
+          java-version: '17'
+          cache: gradle
 
       - name: Clear SDK cache
         run: |
