@@ -5,10 +5,10 @@ buildscript {
     repositories {
         maven { url 'https://jitpack.io' }
         google()
-        mavenCentral()  // ✅ Replace jcenter()
+        mavenCentral()  // ✅ Replace 
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.2'
+        classpath 'com.android.tools.build:gradle:8.2.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlin_version"
         // NOTE: Do not place your application dependencies here; they belong
@@ -20,7 +20,7 @@ allprojects {
     repositories {
         maven { url 'https://jitpack.io' }
         google()
-        mavenCentral()  // ✅ Replace jcenter()
+        mavenCentral()  // ✅ Replace 
         flatDir {        // ✅ For local JARs in app/libs/
             dirs 'app/libs'
         }
