@@ -26,7 +26,6 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    // ✅ ADD THIS
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
@@ -35,9 +34,6 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
-
-    // rest unchanged...
-}
 
     signingConfigs {
         release {
@@ -61,7 +57,7 @@ android {
     sourceSets {
         main {
             java {
-                srcDirs('src/main/java', '../../epubmergelib/src') // ✅ fixed path
+                srcDirs('src/main/java', '../../epubmergelib/src')
             }
         }
     }
@@ -71,7 +67,9 @@ android {
     }
 
     testOptions {
-        unitTests.returnDefaultValues = true
+        unitTests {
+            returnDefaultValues = true
+        }
     }
 }
 
