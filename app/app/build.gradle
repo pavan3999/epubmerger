@@ -5,6 +5,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 repositories {
+        maven { url 'https://jitpack.io' }
     mavenLocal()
     mavenCentral()
     maven { url "https://raw.github.com/psiegman/mvn-repo/master/releases/" }
@@ -94,7 +95,7 @@ dependencies {
     implementation('com.github.fondesa:kpermissions:1.0.0')
     implementation group: 'org.jsoup', name: 'jsoup', version: '1.11.3'
 
-    implementation 'com.ernestoyaquello.dragdropswiperecyclerview:drag-drop-swipe-recyclerview:0.0.2'
+    implementation 'com.github.ernestoyaquello:DragDropSwipeRecyclerview:0.0.2'
 
     testImplementation 'junit:junit:4.12'
     // https://mvnrepository.com/artifact/org.mockito/mockito-core
